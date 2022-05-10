@@ -38,3 +38,13 @@ body {
     height: 100px;
     width: 100px;
 }
+
+.square:focus {
+    outline: none;
+    background-color: #222;
+}
+
+.status {
+    margin: 20px;
+    font: 24px;
+}

@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 const Square = (props) => {
-    console.log(props);
-    return <div className="square">{props.value}</div>;
+    return (
+        <button className="square" onClick={props.onClickEvent}>
+            {props.value}
+        </button>
+    );
 };
 
 const Board = () => {
-    const renderSquare = (i) => {
-        return <Square value={i} />;
+    const initialSquares = Array(9).fill(null);
+
+    const [squares, setSquares] = useState(initialSquares);
+
+    const [xIsNext, setXIsNext] = useState(true);
+
+    const handleClickEvent = (i) => {
+        // alert(`square ${i} clicked`);
+        //1. make copy of squares state array
+        const newSquares = [...squares];
+        // console.log(...squares);
+        //2. Mutate the copy setting the i-th element to X
+        newSquares[i] = xIsNext ? "X" : "O";
+        //3. Call the setSquares function with the mutated copy
+        setSquares(newSquares);
+        setXIsNext(!xIsNext);
     };
+
+    const renderSquare = (i) => {
+        return <Square value={squares[i]} onClickEvent={() => handleClickEvent(i)} />;
+    };
+
+    const status = `Current Player: ${xIsNext ? "X" : "O"}`;
+
     return (
-        <div style={{ backgroundColor: "skyblue", margin: 10, padding: 20 }}>
-            Board
+        <div className="">
+            <div className="status"> {status}</div>
             <div className="boardRow">
                 {renderSquare(0)}
                 {renderSquare(1)}
@@ -38,7 +62,7 @@ const Board = () => {
 const Game = () => {
     return (
         <div className="game">
-            Game
+            Tic-Tac-Toe
             <Board />
         </div>
     );
